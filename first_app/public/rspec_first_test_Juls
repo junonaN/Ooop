@@ -6,19 +6,19 @@ Story: Entering the application
 
 Background: i am an authorized facebook user  
   
-  Scenario 1: Give permission to use personal data
+  Scenario: Give permission to use personal data
     Given i enter the application
     When  i see permission request dialog
       And press OK button
     Then  i see application main page
    
-  Scenario 2: Don't give permission to use personal data
+  Scenario: Don't give permission to use personal data
     Given i enter the application
     When  i see permission request dialog
       And press Skip button
     Then  i see 404 page
 
-  Scenario 3: 404 page if there's no user's permission
+  Scenario: 404 page if there's no user's permission
     Given i reject the permission request dialog
       And relocate on 404 page 
       And see button "Please the cat"
@@ -40,18 +40,18 @@ Scenario 1: View last created surveys
   When  i view the main page
   Then  i see recent surveys list sorted by creation time
   
-Scenario 2: View most popular surveys
+Scenario: View most popular surveys
   Given tab "Popular surveys" is in usage
   When  i view the main page
   Then  i see popular surveys list sorted by number of respondents
 
-Scenario 3: Change tab to Popular
+Scenario: Change tab to Popular
   Given tab "Recent surveys" is in usage 
     And i see recent surveys list
   When  i push on tab's name "Popular surveys" 
   Then  application shows the most popular surveys instead of recent surveys list
 
-Scenario 4: Change tab to Recent
+Scenario: Change tab to Recent
   Given tab "Popular surveys" is in usage 
     And i see popular surveys list
   When  i push on tab's name "Recent surveys" 
@@ -67,19 +67,19 @@ Story: Delete survey
 Background: i am an authorized application user
   And i am on main page
   
-Scenario 1: Show Delete button
+Scenario: Show Delete button
   When  i view the surveys list
     And see my survey
   Then  i move mouse cursor on my survey
     And see Delete button next to this survey
   
-Scenario 2: Don't show Delete button
+Scenario: Don't show Delete button
   When  i view the surveys list
     And see not my survey
   Then  i move mouse cursor on somebody's survey
     And can't see Delete button next to this survey
 
-Scenario 3: Push Delete button
+Scenario: Push Delete button
   Given i move mouse cursor on my survey 
     And see Delete button next to his survey
   When  i press Delete button
@@ -96,13 +96,13 @@ Story: Share survey from main page
 Background: i am an authorized application user
   And i am on main page
   
-  Scenario 1: Show Share button
+  Scenario: Show Share button
     When  i view the surveys list
       And see my survey
     Then  i move mouse cursor on my survey
       And see Share button next to this survey
 
-  Scenario 2: Push Share button
+  Scenario: Push Share button
     Given i move mouse cursor on my survey 
       And see Share button next to my survey
     When  i press Share button
@@ -117,12 +117,14 @@ Story: Settings
 
 Background: i am an authorized application user
   
-  Scenario 1: Show Settings button
+  Scenario: Show Settings button
     Given i am in the application 
     When  i look at application's footer
     Then  i see Settings button
 
-  Scenario 2: Open Settings page
+  Scenario: Open Settings page
     Given i am in the application 
     When  i press Settings button
     Then  app opens settings page 
+
+    
