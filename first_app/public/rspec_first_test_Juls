@@ -8,22 +8,22 @@ Background: i am an authorized facebook user
   
   Scenario: Give permission to use personal data
     Given i enter the application
-    When  i see permission request dialog
+    When  i see permission request dialogue
       And press OK button
     Then  i see application main page
    
   Scenario: Don't give permission to use personal data
     Given i enter the application
-    When  i see permission request dialog
+    When  i see permission request dialogue
       And press Skip button
     Then  i see 404 page
 
   Scenario: 404 page if there's no user's permission
-    Given i reject the permission request dialog
+    Given i reject the permission request dialogue
       And relocate on 404 page 
       And see button "Please the cat"
     When  i press "Please the cat" button
-    Then  application shows me permission request dialog
+    Then  application shows me permission request dialogue
   
   
 Story: Lists of surveys
@@ -65,37 +65,49 @@ Story: Delete survey
   So that i can remove unnecessary surveys
  
 Background: i am an authorized application user
-  And i am on main page
+  And i am in <tab> on one of <page with tabs>
+
+Examples:
+      | tab             | page with tabs |
+      | recent surveys  | main page      |
+      | popular surveys | main page      |
+      | created surveys | dashboard page |
+      | taken surveys   | dashboard page |
   
 Scenario: Show Delete button
   When  i view the surveys list
     And see my survey
-  Then  i move mouse cursor on my survey
-    And see Delete button next to this survey
+  Then  i can see Delete button next to my survey
   
 Scenario: Don't show Delete button
   When  i view the surveys list
     And see not my survey
-  Then  i move mouse cursor on somebody's survey
-    And can't see Delete button next to this survey
-
+  Then  i can't see Delete button next to this survey
+      
 Scenario: Push Delete button
-  Given i move mouse cursor on my survey 
-    And see Delete button next to his survey
+  Given i see Delete button next to the survey
   When  i press Delete button
   Then  application delete chosen survey 
     And i can't see this survey in the list
 
     
-Story: Share survey from main page
+Story: Share survey from survey lists
  
   As an authorized application user
   I want to have possibility to share chosen survey
   So that i can get friends opinion
 
 Background: i am an authorized application user
-  And i am on main page
+  And i am in <tab> on one of <page with tabs>
+
+Examples:
+      | tab             | page with tabs |
+      | recent surveys  | main page      |
+      | popular surveys | main page      |
+      | created surveys | dashboard page |
+      | taken surveys   | dashboard page |
   
+  @share
   Scenario: Show Share button
     When  i view the surveys list
       And see my survey
@@ -106,7 +118,7 @@ Background: i am an authorized application user
     Given i move mouse cursor on my survey 
       And see Share button next to my survey
     When  i press Share button
-    Then  app opens share page 
+    Then  application opens share page 
 
     
 Story: Settings
@@ -125,6 +137,130 @@ Background: i am an authorized application user
   Scenario: Open Settings page
     Given i am in the application 
     When  i press Settings button
-    Then  app opens settings page 
+    Then  application opens settings page 
 
+  Scenario: Show "Language" block on Settings page  
+    Given i am on the Settings page
+      And there is title "Preferences" under the application menu
+    When i look under the title "Preferences"
+    Then i see dropdown menu for choosing language
+      And after this dropdown menu i see Save button
+      And i see notification about language changing
+
+  @language
+  Scenario Outline: Language changing  
+    Given i am on the Settings page
+    When in dropdown menu i choose <first_language>
+      And then press Save button
+    Then in dropdown menu i see <changed_language> 
+
+  Examples: 
+        | first_language | changed_language |
+        | ru             | en               |
+        | en             | ru               |
+
+  Scenario: Show "Notifications" block on Settings page
+    Given i am on the Settings page
+      And there is "Notifications" title on the page
+    When i look under "Notifications" title 
+    Then i see list of existing notifications
+      And i see 2 columns of checkboxes with titles "Email" and "Facebook"
+      And i see Save button after notification variations
+  
+  @notifications
+  Scenario Outline: Notification setting changing
+    Given i am on the Settings page
+    When i change <status> of the checkbox in <notifications>
+      And i press Save button under the notifications list
+    Then page is reloaded
+      And i see <changed_status> of the checkbox is changed in notifications list
+
+  Examples:
+        | notifications                                            |
+        | Report on the results of the survey is ready             |
+        | Only few people have taken your survey                   |
+        | You forgot to share your survey                          |
+        | You haven't finished your survey                         |
+        | Survey life - how many people take and share your survey |
+        | Your friends' actions on Cupli Polls & Surveys           |
+  
+  Examples:
+        | status    | changed_status |
+        | checked   | unchecked      |
+        | unchecked | checked        |
+
+Story: Main Menu
+ 
+  As an authorized application user
+  I want to see all menu items
+  So that i can use it to navigate the application
+
+Background: i am an authorized application user
+  
+  Scenario Outline: Show menu
+    Given i am on <page>
+    When i look on the upper footer
+    Then i see <menu items>:
+        | Cupli logo        |
+        | Create new survey |
+        | Surveys           |
+        | My dashboard      |
     
+  Examples:
+        | page                    |
+        | main page               |
+        | share page              |
+        | create new survey page  |
+        | settings page           |
+        | dashboard page          |
+        | passing the survey page |
+  
+  Scenario Outline: Using menu to navigate the application
+    Given i am on <page>
+    When i press <menu items>
+    Then application opens <chosen page>
+    
+  Examples:
+        | menu items        | chosen page             |
+        | Cupli logo        | main page               |
+        | Create new survey | create new survey page  |
+        | Surveys           | main page               |
+        | My dashboard      | dashboard page          |
+
+        
+Story: Moving on Statistics page
+ 
+  As an authorized application user
+  I want to open statistics page 
+  So that i can view survey statistics
+ 
+Background: i am an authorized application user
+  And i am in <tab> on one of <page with tabs>
+  
+  Examples:
+        | tab             | page with tabs |
+        | recent surveys  | main page      |
+        | popular surveys | main page      |
+        | created surveys | dashboard page |
+        | taken surveys   | dashboard page |
+    
+  Scenario: Show Statistics button
+    When  i view the surveys list
+    Then  i see Statistics button next to the survey
+    
+  Scenario: Push Statistics button
+    Given i see Statistics button next to the survey
+    When  i press Statistics button
+    Then  application opens Statistics page for chosen survey 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
