@@ -228,10 +228,10 @@ Background: i am an authorized application user
         | My dashboard      | dashboard page          |
 
         
-Story: Moving on Statistics page
+Story: Using Statistics button
  
   As an authorized application user
-  I want to open statistics page 
+  I want to Statistics button 
   So that i can view survey statistics
  
 Background: i am an authorized application user
